@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f7f2">
+  <title>TaskFlow — Smart Personal Task Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="TaskFlow home">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span>taskflow<span class="brand-period">.</span></span>
+      </a>
+      <div class="topbar-right">
+        <span class="today-label" id="todayLabel"></span>
+        <button class="focus-toggle" id="focusToggle" type="button">
+          <span class="focus-icon" aria-hidden="true">◎</span>
+          <span id="focusToggleText">Enter focus mode</span>
+        </button>
+        <div class="avatar" aria-label="Your workspace">TF</div>
+      </div>
+    </header>
+
+    <main>
+      <section class="tip-panel inspiration-hero" aria-labelledby="tipTitle">
+        <div class="inspiration-orbit" aria-hidden="true">✳</div>
+        <div class="tip-content">
+          <p class="eyebrow">A MOMENT FOR YOU</p>
+          <h2 id="tipTitle">✨ DAILY INSPIRATION</h2>
+          <p class="tip-text" id="tipText">Small progress is still progress. Keep going! 🚀</p>
+        </div>
+        <button class="tip-refresh" id="tipRefresh" type="button" aria-label="Get another productivity tip">↻</button>
+        <span class="tip-credit" id="tipCredit">A NOTE FOR YOUR DAY</span>
+      </section>
+
+      <section class="welcome-row" aria-labelledby="welcomeTitle">
+        <div>
+          <p class="eyebrow"><span class="eyebrow-dot"></span> YOUR PERSONAL WORKSPACE</p>
+          <h1 id="welcomeTitle">Make room for<br><span>what matters.</span></h1>
+          <p class="welcome-copy">A little progress each day adds up to big results.</p>
+        </div>
+        <div class="welcome-art" aria-hidden="true">
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="art-spark">✳</div>
+          <div class="art-note"><span>today</span><strong>is yours</strong><i>↗</i></div>
+          <div class="art-dot"></div>
+        </div>
+      </section>
+
+      <section class="stats-grid" aria-label="Task dashboard">
+        <article class="stat-card stat-total">
+          <div class="stat-top"><span class="stat-label">TOTAL TASKS</span><span class="stat-icon">▤</span></div>
+          <strong class="stat-value" id="totalTasks">0</strong>
+          <span class="stat-foot">All the things in motion</span>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span class="stat-label">IN PROGRESS</span><span class="stat-icon icon-pending">◷</span></div>
+          <strong class="stat-value" id="pendingTasks">0</strong>
+          <span class="stat-foot">One step at a time</span>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span class="stat-label">COMPLETED</span><span class="stat-icon icon-complete">✓</span></div>
+          <strong class="stat-value" id="completedTasks">0</strong>
+          <span class="stat-foot">Look how far you’ve come</span>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span class="stat-label">HIGH PRIORITY</span><span class="stat-icon icon-priority">↗</span></div>
+          <strong class="stat-value" id="highPriorityTasks">0</strong>
+          <span class="stat-foot">Your top things to tackle</span>
+        </article>
+      </section>
+
+      <section class="momentum-panel" aria-label="Productivity score">
+        <div class="momentum-copy">
+          <div class="momentum-heading"><span class="momentum-symbol">✳</span><span>YOUR MOMENTUM</span></div>
+          <p id="motivationMessage">Every great day starts with one small step.</p>
+        </div>
+        <div class="score-block">
+          <div class="score-number"><strong id="productivityScore">0</strong><span>%</span></div>
+          <span class="score-caption">PRODUCTIVITY SCORE</span>
+        </div>
+        <div class="score-track" aria-hidden="true"><span id="scoreBar"></span></div>
+      </section>
+
+      <section class="workspace-grid">
+        <aside class="create-panel" aria-labelledby="formTitle">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">GET IT OUT OF YOUR HEAD</p>
+              <h2 id="formTitle">Create a task<span class="heading-period">.</span></h2>
+            </div>
+            <span class="heading-spark" aria-hidden="true">✳</span>
+          </div>
+          <form id="taskForm" novalidate>
+            <label class="field-label" for="taskName">Task name <span>*</span></label>
+            <input id="taskName" name="taskName" type="text" maxlength="70" placeholder="e.g. Finish biology notes" autocomplete="off" required>
+            <label class="field-label" for="taskDescription">A little more detail <span class="optional">(optional)</span></label>
+            <textarea id="taskDescription" name="taskDescription" rows="3" maxlength="220" placeholder="What does done look like?"></textarea>
+            <div class="field-row">
+              <div class="field-column">
+                <label class="field-label" for="taskCategory">Category</label>
+                <select id="taskCategory" name="taskCategory">
+                  <option value="Study">Study</option>
+                  <option value="Personal">Personal</option>
+                  <option value="Work">Work</option>
+                  <option value="Health">Health</option>
+                  <option value="Creative">Creative</option>
+                </select>
+              </div>
+              <div class="field-column">
+                <label class="field-label" for="taskPriority">Priority</label>
+                <select id="taskPriority" name="taskPriority">
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                  <option value="Low">Low</option>
+                </select>
+              </div>
+            </div>
+            <label class="field-label" for="taskDueDate">Due date</label>
+            <input id="taskDueDate" name="taskDueDate" type="date">
+            <p class="form-message" id="formMessage" aria-live="polite"></p>
+            <button class="submit-button" id="submitButton" type="submit"><span>＋</span> Add to my list</button>
+            <button class="cancel-edit-button" id="cancelEditButton" type="button" hidden>Cancel editing</button>
+          </form>
+          <div class="form-note"><span>✦</span> Small steps still move you forward.</div>
+        </aside>
+
+        <section class="tasks-panel" aria-labelledby="tasksTitle">
+          <div class="tasks-heading">
+            <div>
+              <p class="eyebrow">YOUR DAY, IN VIEW</p>
+              <h2 id="tasksTitle">The task space<span class="heading-period">.</span></h2>
+            </div>
+            <span class="task-count" id="taskCount">0 tasks</span>
+          </div>
+          <div class="search-wrap">
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <input id="searchInput" type="search" placeholder="Search your tasks..." aria-label="Search tasks">
+            <span class="search-shortcut">LIVE SEARCH</span>
+          </div>
+          <div class="filter-row" role="group" aria-label="Filter tasks">
+            <button class="filter-button active" type="button" data-filter="All">All <span id="allCount">0</span></button>
+            <button class="filter-button" type="button" data-filter="Pending">Pending <span id="pendingCount">0</span></button>
+            <button class="filter-button" type="button" data-filter="Completed">Completed</button>
+            <button class="filter-button" type="button" data-filter="High Priority">High priority</button>
+          </div>
+          <div class="task-notice" id="taskNotice" role="status" aria-live="polite" hidden>
+            <span id="taskNoticeText"></span>
+            <button id="dismissNoticeButton" type="button" aria-label="Dismiss notification">×</button>
+          </div>
+          <div class="focus-banner" id="focusBanner" hidden>
+            <span>◎</span>
+            <div><strong>Focus mode is on</strong><small>One thing at a time. You’ve got this.</small></div>
+            <button id="exitFocusButton" type="button" aria-label="Exit focus mode">×</button>
+          </div>
+          <div class="task-groups" id="taskGroups" aria-live="polite"></div>
+          <div class="empty-state" id="emptyState" hidden>
+            <div class="empty-illustration">✳</div>
+            <h3 id="emptyTitle">A fresh page.</h3>
+            <p id="emptyCopy">Add your first task and give today some direction.</p>
+          </div>
+        </section>
+      </section>
+
+    </main>
+    <footer><span>TaskFlow</span> · A calmer way to get things done <span class="footer-spark">✳</span></footer>
+  </div>
+</body>
+</html>
